@@ -28,9 +28,9 @@ nest  i  (DocImpl s)  =  DocImpl (replicate i ' ' ++  s)
 layout   (DocImpl s)  = s
 -}
 
-map':: (a -> b) -> (a -> b) -> [a] -> [b]
-map' _ _ [] = []
-map' ffirst fother (x:xs) =  ffirst x : map fother xs
+map':: (a -> a) -> [a] -> [a]
+map'  _ [] = []
+map'  fother (x:xs) =  x : map fother xs
 
 
 
@@ -40,7 +40,8 @@ nil    = DocImpl ""
 text   = DocImpl 
 line   = DocImpl  "\n"  
 nest  i  (DocImpl s)  =  DocImpl(let spaces = replicate i ' '
-                                 in  unlines $ map' id ((++) spaces) $ lines s  ) 
+                                 in  let r = unlines $ map' (spaces ++) $ lines s
+                                     in take (length r - 1) r   ) 
 layout   (DocImpl s)  = s
 
 

@@ -9,7 +9,7 @@ showTrees [t]        =  showTree t
 showTrees (t:ts)     =  showTree t <> text "," <> line <> showTrees ts
 
 
-a =  Node  "aaa"  [Node "bbbbb" [Node "ccc" [], Node "dd" []], Node "eee" [], Node "fff" [Node "gg"[ Node "hh" [], Node "ii" []]]]
+a =  Node  "aaa"  [Node "bbbbb" [Node "ccc" [], Node "dd" []], Node "eee" [], Node "fff" [Node "gg" [], Node "hhh" [], Node "ii" []]]
 
 b =  Node  "aaa"  [Node "bbbbb" [], Node "ccc" []]
 
