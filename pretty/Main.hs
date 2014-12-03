@@ -15,7 +15,7 @@ b =  Node  "aaa"  [Node "bbbbb" [], Node "ccc" []]
 
 
 
-adoc = showTree b
+adoc = showTree a
 
 main :: IO ()
 main = 
