@@ -18,12 +18,23 @@ nest  i   = replicate i ' '
 layout    = id
 -}
   
+{-|
+newtype Doc = DocImpl String
+(<>) (DocImpl s) (DocImpl s')  = DocImpl (s ++ s') 
+nil    = DocImpl ""
+text   = DocImpl 
+line   = DocImpl  "\n"  
+nest  i  (DocImpl s)  =  DocImpl (replicate i ' ' ++  s) 
+layout   (DocImpl s)  = s
+-}
 
 newtype Doc = DocImpl String
 (<>) (DocImpl s) (DocImpl s')  = DocImpl (s ++ s') 
-nil       = DocImpl ""
-text   s   = (DocImpl s)
-line  = (DocImpl  [ '\n' ]  )
-nest  i  (DocImpl s)  =  DocImpl((replicate i ' ')  ++  s) 
-layout   (DocImpl s)   = s
+nil    = DocImpl ""
+text   = DocImpl 
+line   = DocImpl  "\n"  
+nest  i  (DocImpl s)  =  DocImpl(let spaces = replicate i ' '
+                                 in  unlines $ map ((++) spaces) $ lines s  ) 
+layout   (DocImpl s)  = s
+
 

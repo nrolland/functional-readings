@@ -11,8 +11,11 @@ showTrees (t:ts)     =  showTree t <> text "," <> line <> showTrees ts
 
 a =  Node  "aaa"  [Node "bbbbb" [Node "ccc" [], Node "dd" []], Node "eee" [], Node "fff" [Node "gg"[ Node "hh" [], Node "ii" []]]]
 
+b =  Node  "aaa"  [Node "bbbbb" [], Node "ccc" []]
 
-adoc = showTree a
+
+
+adoc = showTree b
 
 main :: IO ()
 main = 
