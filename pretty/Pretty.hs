@@ -1,4 +1,5 @@
 
+
 module Pretty.Pretty  (Doc, (<>), nil,text,line,nest,layout)  where
 
 (<>) ::Doc->Doc->Doc 
