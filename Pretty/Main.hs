@@ -1,3 +1,5 @@
+module Pretty.Main where
+
 import Pretty.Pretty 
 
 

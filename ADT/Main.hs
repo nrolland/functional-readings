@@ -1,5 +1,6 @@
 {-# LANGUAGE ScopedTypeVariables #-}
-
+module ADT.Main where 
+    
 import ADT.Stack as Stack
 import Data.Int
 import Control.Monad
