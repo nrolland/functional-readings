@@ -1,4 +1,4 @@
-module Pretty.Pretty  (Doc, (<>), nil,text,line,nest, group, pretty)  where
+module Pretty.Pretty  (Doc, (<>), nil,text,line,nest, group, pretty,best)  where
 
 import Prelude
 import Data.List hiding (group)
@@ -37,7 +37,7 @@ Nil <> y = y                             -- appending to Nil is the appendee its
                                               -- this preserves the invariant about first line length
 
 nest i (s `Text` x)    = s `Text` nest i x -- s has no notion of line, so we just pass the job
-nest i (j `Line` x)  =  (i + j) `Line` x   -- nest acts on Lines by shifting the block
+nest i (j `Line` x)  =  (i + j) `Line` nest i x   -- nest acts on Lines by shifting the block
 nest i Nil  = Nil                          -- and does nothing to empty Doc
 nest i (x `Union` y) = nest i x `Union` nest i y  -- we need to define nest on the new case 
                                                  -- this preserves the invariant about first line length
@@ -49,10 +49,15 @@ layout Nil = ""
 
 (<|>) x y = x `Union` y    --our representation allows us to map directly to the constructor
 
-group x      = flatten x <|> x  -- by the semantic of group we can express in term of abstract ops
+--group x      = flatten x <|> x  -- by the semantic of group we can express in term of abstract ops
+group Nil            = Nil
+group (i `Line` x)   =  (" " `Text` flatten x) `Union` (i `Line` x)
+group (s `Text` x)   = s `Text` group x
+group (x `Union` y)  = group x `Union` y
 
+ --flatten remove line return and their begin spaces
 flatten Nil           = Nil
-flatten (i `Line` x)  = " " `Text` flatten x --flatten remove line return and their begin spaces
+flatten (i `Line` x)  = " " `Text` flatten x
 flatten (s `Text` x)  = s `Text` flatten x  -- we dont touch Text which represent 'pure' text 
 flatten (x `Union` y) = flatten x  -- this invariant has to be respected
 
@@ -73,6 +78,6 @@ best w k (x `Union` y) = better w k (best w k x) (best w k y) --pick the best !
                                fits w (i `Line` x)  = True -- it does not fit, but is only selected if the 
                                                            -- other arg of better is not fitting...
                                
-
+--it does not 
 
 pretty i x =  layout (best i 0 x)
