@@ -6,7 +6,7 @@ import Prelude
 data Tree  = Node String [Tree]
              deriving(Show)
 
-showTree (Node s ts) =  text s <> nest (length s) (showBracket ts)
+showTree (Node s ts) =  group ( text s <> nest (length s) (showBracket ts) )
 showBracket []       =  nil
 showBracket ts       =  text "[" <> nest 1 (showTrees ts) <> text "]"
 showTrees [t]        =  showTree t
@@ -24,4 +24,4 @@ adoc = showTree a
 main :: IO ()
 main = 
    -- print $ layout adoc
-   putStrLn $ layout adoc
+   putStrLn $ pretty 10 adoc
