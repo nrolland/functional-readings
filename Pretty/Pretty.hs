@@ -61,11 +61,14 @@ best w k Nil =  undefined
 best w k (i `Line`  x) = undefined  
 best w k (s `Text`  x) = undefined
 best w k (x `Union` y) = undefined
-better w k x y = undefined
 
 fits w x | w<0  = undefined 
 fits w Nil  = undefined
 fits w (s `Text` x)  = undefined
 fits w (i `Line` x)  = undefined
+
+better w k x y = undefined
+
+
 
 pretty i x =  layout (best i 0 x)
