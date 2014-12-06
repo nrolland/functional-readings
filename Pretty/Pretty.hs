@@ -42,6 +42,11 @@ nest i Nil  = Nil                          -- and does nothing to empty Doc
 nest i (x `Union` y) = nest i x `Union` nest i y  -- we need to define nest on the new case 
                                                  -- this preserves the invariant about first line length
 
+layout (s `Text` x)   = s ++ layout x   -- we just print and pass on
+layout (i `Line` x)  = '\n' : replicate i ' ' ++ layout x -- same
+layout Nil = ""
+
+
 (<|>) x y = x `Union` y    --our representation allows us to map directly to the constructor
 
 group x      = flatten x <|> x  -- by the semantic of group we can express in term of abstract ops
@@ -52,5 +57,5 @@ flatten (s `Text` x)  = s `Text` flatten x  -- we dont touch Text which represen
 flatten (x `Union` y) = flatten x  -- this invariant has to be respected
 
 
-pretty i x = undefined
+pretty i x =  undefined
 
