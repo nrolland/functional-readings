@@ -57,18 +57,22 @@ flatten (s `Text` x)  = s `Text` flatten x  -- we dont touch Text which represen
 flatten (x `Union` y) = flatten x  -- this invariant has to be respected
 
 
-best w k Nil =  undefined 
-best w k (i `Line`  x) = undefined  
-best w k (s `Text`  x) = undefined
-best w k (x `Union` y) = undefined
-
-fits w x | w<0  = undefined 
-fits w Nil  = undefined
-fits w (s `Text` x)  = undefined
-fits w (i `Line` x)  = undefined
-
-better w k x y = undefined
-
+--best will traverse : 
+--  every non union transparently, just passing on the space it uses
+--  selection will happen at `Union` values
+best :: Int -> Int -> Doc -> Doc
+best w k Nil =  Nil
+best w k (i `Line`  x) = i `Line` best w i x  --we eat up i characters
+best w k (s `Text`  x) = s `Text` best w (k + length s) x  -- we are taking extra length s characters 
+best w k (x `Union` y) = better w k (best w k x) (best w k y) --pick the best ! 
+                               --better by construction never accepts a `Union`
+                         where better w k x y = if fits (w-k) x then x else y --first is better if it fits
+                               fits w x | w < 0     = False -- this does not fit
+                               fits w Nil           = True  -- this always fit
+                               fits w (s `Text` x)  = fits (w - length s) x
+                               fits w (i `Line` x)  = True -- it does not fit, but is only selected if the 
+                                                           -- other arg of better is not fitting...
+                               
 
 
 pretty i x =  layout (best i 0 x)

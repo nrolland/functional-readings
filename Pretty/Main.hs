@@ -24,4 +24,4 @@ adoc = showTree a
 main :: IO ()
 main = 
    -- print $ layout adoc
-   putStrLn $ pretty 10 adoc
+   putStrLn $ pretty 5 adoc
