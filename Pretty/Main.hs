@@ -1,9 +1,11 @@
 module Pretty.Main where
 
 import Pretty.Pretty 
-
+import Prelude
 
 data Tree  = Node String [Tree]
+             deriving(Show)
+
 showTree (Node s ts) =  text s <> nest (length s) (showBracket ts)
 showBracket []       =  nil
 showBracket ts       =  text "[" <> nest 1 (showTrees ts) <> text "]"

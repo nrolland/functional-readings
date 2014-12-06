@@ -10,17 +10,16 @@ line :: Doc
 nest ::Int->Doc->Doc 
 layout :: Doc -> String
 
-
 map':: (a -> a) -> [a] -> [a]
 map'  _ [] = []
 map'  fother (x:xs) =  x : map fother xs
-
 
 --this algebraic type represent every normal form
 --of document, so it can represent every document
 data Doc = Nil 
          | String  `Text` Doc
          | Int `Line` Doc
+         deriving (Show)
 
 nil = Nil
 text s = s `Text` Nil
@@ -38,8 +37,5 @@ nest i Nil  = Nil                          -- and does nothing to empty Doc
 
 
 layout (s `Text` x)   = s ++ layout x   -- we just print and pass on
-layout (i `Line` x)  = '\n' : repeat ' ' ++ layout x -- same
+layout (i `Line` x)  = '\n' : replicate i ' ' ++ layout x -- same
 layout Nil = ""
-
-
-
