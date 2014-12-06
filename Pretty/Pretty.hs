@@ -1,6 +1,7 @@
 module Pretty.Pretty  (Doc, (<>), nil,text,line,nest,layout)  where
 
 import Prelude
+import Data.List
 
 (<>) ::Doc->Doc->Doc 
 nil :: Doc
@@ -18,7 +19,7 @@ map'  fother (x:xs) =  x : map fother xs
 --this algebraic type represent every normal form
 --of document, so it can represent every document
 data Doc = Nil 
-         | String  `Text` Doc  -- = text s <> x
+         | String  `Text` Doc
          | Int `Line` Doc
 
 nil = Nil
@@ -36,9 +37,9 @@ nest i (j `Line` x)  =  (i + j) `Line` x   -- nest acts on Lines by shifting the
 nest i Nil  = Nil                          -- and does nothing to empty Doc
 
 
-layout (s `Text` x)   = undefined
-layout (i `Line` x)  = undefined
-layout Nil = undefined
+layout (s `Text` x)   = s ++ layout x   -- we just print and pass on
+layout (i `Line` x)  = '\n' : repeat ' ' ++ layout x -- same
+layout Nil = ""
 
 
 
