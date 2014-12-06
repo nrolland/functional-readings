@@ -25,12 +25,13 @@ nil = Nil
 text s = s `Text` Nil
 line   = 0 `Line` Nil
 
-(s `Text` x) <> y   = undefined 
-(i `Line` x) <> y = undefined
-Nil <> y = undefined
+
+(s `Text` x) <> y   = s `Text` (x <> y)  --appending a doc y when we already have s text  
+(i `Line` x) <> y =   i `Line` (x <> y)  -- same when we have a line, we just append to the end 
+Nil <> y = y                             -- appending to Nil is the appendee itself
 
 
-nest i (s `Text` x)    = undefined 
+nest i (s `Text` x)    = undefined
 nest i (j `Line` x)  = undefined
 nest i Nil  = undefined
 
