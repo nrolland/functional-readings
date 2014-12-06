@@ -34,11 +34,13 @@ line   = 0 `Line` Nil
 (i `Line` x) <> y =   i `Line` (x <> y)  -- same when we have a line, we just append to the end 
 Nil <> y = y                             -- appending to Nil is the appendee itself
 (x `Union` y) <> z = (x <> z) `Union` (y <> z) -- we need to define <> on the new case 
+                                              -- this preserves the invariant about first line length
 
 nest i (s `Text` x)    = s `Text` nest i x -- s has no notion of line, so we just pass the job
 nest i (j `Line` x)  =  (i + j) `Line` x   -- nest acts on Lines by shifting the block
 nest i Nil  = Nil                          -- and does nothing to empty Doc
 nest i (x `Union` y) = nest i x `Union` nest i y  -- we need to define nest on the new case 
+                                                 -- this preserves the invariant about first line length
 
 (<|>) x y = x `Union` y    --our representation allows us to map directly to the constructor
 
