@@ -40,14 +40,11 @@ nest i (j `Line` x)  =  (i + j) `Line` x   -- nest acts on Lines by shifting the
 nest i Nil  = Nil                          -- and does nothing to empty Doc
 
 
-(<|>) x y = undefined
+(<|>) x y = x `Union` y    --our representation allows us to map directly to the constructor
 
-group Nil          = undefined
-group (i `Line` x) = undefined
-group (s `Text` x)= undefined
-group (x `Union` y)= undefined
+group x      = flatten x <|> x  -- by the semantic of group we can express in term of abstract ops
 
-flatten Nil= undefined
+flatten Nil = undefined
 flatten (i `Line` x)  =  undefined
 flatten (s `Text` x)  = undefined
 flatten (x `Union` y)  = undefined
