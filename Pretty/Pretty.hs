@@ -31,9 +31,9 @@ line   = 0 `Line` Nil
 Nil <> y = y                             -- appending to Nil is the appendee itself
 
 
-nest i (s `Text` x)    = undefined
-nest i (j `Line` x)  = undefined
-nest i Nil  = undefined
+nest i (s `Text` x)    = s `Text` nest i x -- s has no notion of line, so we just pass the job
+nest i (j `Line` x)  =  (i + j) `Line` x   -- nest acts on Lines by shifting the block
+nest i Nil  = Nil                          -- and does nothing to empty Doc
 
 
 layout (s `Text` x)   = undefined
