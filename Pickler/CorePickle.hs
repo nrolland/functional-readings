@@ -1,4 +1,4 @@
-module Pickler.CorePickle ( PU,  pickle, unpickle, lift, sequ, base, belowBase ) where
+module Pickler.CorePickle ( PU(..), pickle, unpickle, lift, sequ, base, belowBase ) where
 
 
 type St = [Char]
