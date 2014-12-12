@@ -29,6 +29,6 @@ px = pickle bookmarks x
 x' = unpickle bookmarks px
               
 main                    :: IO ()
-main                    =  do putStr px
-                              putStr "Hi"
-                              putStr $ show x'
+main                    =  do putStrLn px
+                              putStrLn "Hi"
+                              putStrLn $ show x'
