@@ -1,5 +1,8 @@
+{-# LANGUAGE OverloadedStrings #-}
 import System.Environment
+import Control.Arrow
 import Pickler.Pickle
+import Numeric
 import Prelude
 
 data URL = URL { protocol :: String,
@@ -27,8 +30,9 @@ x = [ Link("Andrew", URL {protocol = "http",
                           file = "users/akenn" })]
 px = pickle bookmarks x
 x' = unpickle bookmarks px
+s = map (\c -> showHex (fromEnum c) "")  px
               
 main                    :: IO ()
-main                    =  do putStrLn px
+main                    =  do print s
                               putStrLn "Hi"
-                              putStrLn $ show x'
+                              print x'
