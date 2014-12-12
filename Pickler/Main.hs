@@ -13,7 +13,7 @@ url = wrap (\x -> (protocol x, host x, port x, file x),
 data Bookmark = Link (String, URL)  | Folder (String, [Bookmark])
 bookmark = alt tag [undefined,
                      undefined]
-           where tag Link _ = 0; tag Folder _ = 1
+           where tag (Link _) = 0; tag (Folder _) = 1
 
 x = [ Link("Andrew", URL {protocol = "http",
                           host = "research.microsoft.com",
