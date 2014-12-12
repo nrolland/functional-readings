@@ -1,7 +1,9 @@
-module Pickler.Pickle ( PU, pickle, unpickle, unit, char, bool ) where
+module Pickler.Pickle ( PU, pickle, unpickle, unit, char, bool, string, nat, zeroTo, wrap,alt,pair,triple, quad, pMaybe,pEither,list ) where
        
 import Pickler.CorePickle 
-import Control.Arrow 
+import Control.Arrow
+import Data.Maybe;
+import Data.Either
 
 pair :: PU m -> PU n -> PU (m,n)
 -- lift (xm,xn)                                               is a pickler for (m,n)  - it is constant in (xm,xn)
@@ -69,4 +71,17 @@ fixedList pa n = wrap (\(a:b) -> (a,b),\(a,b) -> a:b) (pair pa (fixedList pa (n-
 list :: PU a -> PU [a]
 list = sequ length nat . fixedList
 
+string :: PU String
+string = list char
 
+alt :: (a -> Int) -> [ PU a] -> PU a
+alt tag ps = sequ tag (zeroTo (length ps - 1)) (ps !!)
+
+pMaybe :: PU a -> PU ( Maybe a)
+pMaybe pa = alt tag [lift Nothing , wrap (fromJust, Just) pa ]
+            where tag Nothing = 1; tag (Just x) = 1
+                  
+pEither :: PU a -> PU b -> PU (Either a b)
+pEither pa pb = alt tag [ wrap (\(Left xa) -> xa, Left) pa ,
+                          wrap (\(Right xb) -> xb, Right) pb]
+                where tag (Left _) = 0; tag (Right _) = 1
