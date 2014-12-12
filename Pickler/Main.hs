@@ -6,6 +6,9 @@ data URL = URL { protocol :: String,
                  host :: String,
                  port :: Maybe Int,
                  file :: String}
+url = wrap (\x -> (protocol x, host x, port x, file x),
+            \(pr,h,pt,f) -> URL {protocol = pr, host=h, port = pt, file = f} )
+            quad string string (pMaybe nat) string
 data Bookmark = Link (String, URL)  | Folder (String, [Bookmark])
 
 x = [ Link("Andrew", URL {protocol = "http",
